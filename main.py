@@ -36,68 +36,107 @@ app = FastAPI(lifespan=lifespan)
 # Subscribe plan for user
 @app.post("/subscribe")
 def subscribe_user(user_sub_details: UserSubscription):
-    """Subscribe a new user to the group."""
-    telegram_id = user_sub_details.telegram_id
-    duration_days = user_sub_details.duration_days
+    try:
+        """Subscribe a new user to the group."""
+        telegram_id = user_sub_details.telegram_id
+        duration_days = user_sub_details.duration_days
 
-    if not telegram_id or not duration_days or duration_days <= 0:
-        return JSONResponse(status_code=400, content={
+        if not telegram_id or not duration_days or duration_days <= 0:
+            return JSONResponse(status_code=400, content={
+                "status_code": 0,
+                "message": "telegram_id or duration_days missing/invalid"
+            })
+
+        expiry_date = datetime.now() + timedelta(days=duration_days)
+        add_user(telegram_id, expiry_date)
+
+        invite_link = create_temp_invite_link()
+        if invite_link:
+            telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
+            send_group_subscription_notification(telegram_id)
+        else:
+            telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
+
+        return JSONResponse(status_code=200, content={"message": "User subscribed successfully", 
+                                                    "invite_link": invite_link, 
+                                                    "expiry_date": jsonable_encoder(expiry_date)})
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={
             "status_code": 0,
-            "message": "telegram_id or duration_days missing/invalid"
+            "message": f"Failed to subscribe user. {e}"
         })
-
-    expiry_date = datetime.now() + timedelta(days=duration_days)
-    add_user(telegram_id, expiry_date)
-
-    invite_link = create_temp_invite_link()
-    if invite_link:
-        telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
-        send_group_subscription_notification(telegram_id)
-    else:
-        telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
-
-    return {"message": "User subscribed successfully", "invite_link": invite_link, "expiry_date": expiry_date}
-
 
 
 @app.post("/extend-plan")
 async def extend_plan(user_sub_details: UserSubscription):
-    """Extend an existing user's subscription plan dynamically."""
-    telegram_id = user_sub_details.telegram_id
-    extra_days = user_sub_details.duration_days  # optional, could default to 30
+    try:
+        """Extend an existing user's subscription plan dynamically."""
+        telegram_id = user_sub_details.telegram_id
+        extra_days = user_sub_details.duration_days  # optional, could default to 30
 
-    if not telegram_id:
-        return JSONResponse(status_code=400, content={
+        if not telegram_id:
+            return JSONResponse(status_code=400, content={
+                "status_code": 0,
+                "message": "telegram_id missing"
+            })
+
+        # Fetch current user from DB
+        user = users_collection.find_one({"telegram_id": telegram_id})
+        if user:
+            previous_expiry = user.get("expiry_date") if user else None
+            base_date = previous_expiry if previous_expiry and previous_expiry > datetime.now() else datetime.now()
+
+            # Calculate new expiry
+            extra_days = extra_days if extra_days and extra_days > 0 else 30
+            new_expiry_date = base_date + timedelta(days=extra_days)
+
+            # Calculate duration_days dynamically
+            duration_days = (new_expiry_date - datetime.now()).days
+
+            extend_plan_in_db(telegram_id, new_expiry_date)
+
+            telegram_bot_sendtext(f"🎉 Your plan has been extended until {new_expiry_date}", telegram_id)
+
+            return JSONResponse(status_code=200, content={
+                "status_code": 1,
+                "message": "User plan extended successfully",
+                "invite_link": None, 
+                "expiry_date": None,
+                "data": {
+                    "telegram_id": telegram_id,
+                    "previous_expiry": jsonable_encoder(previous_expiry),
+                    "new_expiry": jsonable_encoder(new_expiry_date),
+                    "duration_days": duration_days
+                }
+            })
+        else:
+            expiry_date = datetime.now() + timedelta(days=extra_days)
+            add_user(telegram_id, expiry_date)
+
+            invite_link = create_temp_invite_link()
+            if invite_link:
+                telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
+                send_group_subscription_notification(telegram_id)
+            else:
+                telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
+
+            return JSONResponse(status_code=200, content={
+                "status_code": 1,
+                "message": "User plan extended successfully",
+                "invite_link": invite_link, 
+                "expiry_date": jsonable_encoder(expiry_date),
+                "data": {
+                    "telegram_id": telegram_id,
+                    "previous_expiry": None,
+                    "duration_days": jsonable_encoder(expiry_date)
+                }
+            })
+    except Exception as e:
+        return JSONResponse(status_code=500, content={
             "status_code": 0,
-            "message": "telegram_id missing"
+            "message": f"Failed to extend user plan. {e}"
         })
-
-    # Fetch current user from DB
-    user = users_collection.find_one({"telegram_id": telegram_id})
-    previous_expiry = user.get("expiry_date") if user else None
-    base_date = previous_expiry if previous_expiry and previous_expiry > datetime.now() else datetime.now()
-
-    # Calculate new expiry
-    extra_days = extra_days if extra_days and extra_days > 0 else 30
-    new_expiry_date = base_date + timedelta(days=extra_days)
-
-    # Calculate duration_days dynamically
-    duration_days = (new_expiry_date - datetime.now()).days
-
-    extend_plan_in_db(telegram_id, new_expiry_date)
-
-    telegram_bot_sendtext(f"🎉 Your plan has been extended until {new_expiry_date}", telegram_id)
-
-    return JSONResponse(status_code=200, content={
-        "status_code": 1,
-        "message": "User plan extended successfully",
-        "data": {
-            "telegram_id": telegram_id,
-            "previous_expiry": jsonable_encoder(previous_expiry),
-            "new_expiry": jsonable_encoder(new_expiry_date),
-            "duration_days": duration_days
-        }
-    })
 
 
 @app.get("/kick_expired_users")
