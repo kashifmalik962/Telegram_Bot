@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime, timedelta
@@ -11,8 +12,24 @@ from scheduler import *
 # Load environment variables
 load_dotenv()
 
+# load environment variables
+load_dotenv()
+MONGO_URI = os.getenv("MONGO_URI")
+DB = os.getenv("DB")
+USER_COLLECTION = os.getenv("USER_COLLECTION")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # This code runs on startup
+    start_expiry_check()
+    yield
+    # This code runs on shutdown (optional)
+    print("Shutting down...")
+
+
 # Initialize FastAPI
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 # -------------------- API Endpoints --------------------
 
@@ -92,6 +109,5 @@ def kick_expired_users():
 # -------------------- Main --------------------
 
 if __name__ == "__main__":
-    start_expiry_check()
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

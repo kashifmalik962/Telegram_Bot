@@ -1,10 +1,9 @@
-from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime
-import os
 import pymongo
 from util import kick_user
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 from dotenv import load_dotenv
-
+import os
 
 # load environment variables
 load_dotenv()
@@ -12,12 +11,11 @@ MONGO_URI = os.getenv("MONGO_URI")
 DB = os.getenv("DB")
 USER_COLLECTION = os.getenv("USER_COLLECTION")
 
+
 # MongoDB Setup
 client = pymongo.MongoClient(MONGO_URI)
 db = client[DB]
 users_collection = db[USER_COLLECTION]
-
-
 
 # APScheduler Setup
 scheduler = BackgroundScheduler()
@@ -27,6 +25,7 @@ scheduler.start()
 
 def check_and_kick_users():
     """Check for expired subscriptions and kick users."""
+    print("running check_and_kick_users")
     current_time = datetime.now()
     expired_users = users_collection.find({
         "expiry_date": {"$lt": current_time}
@@ -40,5 +39,7 @@ def check_and_kick_users():
 
 def start_expiry_check():
     """Start periodic check for expired users."""
-    scheduler.add_job(check_and_kick_users, 'interval', minutes=1)
-    print("Scheduler started: checking for expired users every 1 minute.")
+    scheduler.add_job(check_and_kick_users, trigger='cron', hour=12, minute=0, timezone='UTC')
+    # scheduler.add_job(check_and_kick_users, 'interval', minutes=1)
+    print("✅ Scheduler started: will check for expired users daily at 12:00 PM UTC.")
+

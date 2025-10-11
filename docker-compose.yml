@@ -3,7 +3,7 @@ version: '3.9'
 services:
   fastapi-app:
     build: .
-    image: kashifmalik2786/telegram_project:v.1.0.1
+    image: kashifmalik2786/telegram_project:v.1.0.2
     container_name: telegram_bot
     ports:
       - "3039:3039"
