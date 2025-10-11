@@ -102,7 +102,7 @@ async def extend_plan(user_sub_details: UserSubscription):
                 "status_code": 1,
                 "message": "User plan extended successfully",
                 "invite_link": None, 
-                "expiry_date": None,
+                "expiry_date": jsonable_encoder(new_expiry_date),
                 "data": {
                     "telegram_id": telegram_id,
                     "previous_expiry": jsonable_encoder(previous_expiry),
