@@ -36,7 +36,7 @@ def create_temp_invite_link():
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/createChatInviteLink"
     data = {
         "chat_id": GROUP_CHAT_ID,
-        "expire_date": int(time.time()) + 60,  # 1 minute
+        "expire_date": int(time.time()) + (7 * 24 * 60 * 60),  # 7 days validity
         "member_limit": 1
     }
     try:
@@ -50,11 +50,11 @@ def create_temp_invite_link():
         print(f"Error generating invite link: {e}")
         return None
 
-def add_user(telegram_id: int, expiry_date: datetime):
+def add_user(telegram_id: int, expiry_date: datetime, invite_link: str):
     """Add or update a user in MongoDB."""
     users_collection.update_one(
         {"telegram_id": telegram_id},
-        {"$set": {"expiry_date": expiry_date}},
+        {"$set": {"expiry_date": expiry_date, "invite_link": invite_link, "joined": False}},
         upsert=True
     )
     print(f"[Added] User {telegram_id} added with expiry {expiry_date}.")
@@ -84,3 +84,5 @@ def extend_plan_in_db(telegram_id, new_expiry_date):
         {"$set": {"expiry_date": new_expiry_date}},
         upsert=True
     )
+
+
