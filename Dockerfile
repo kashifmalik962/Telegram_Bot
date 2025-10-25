@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose port
-EXPOSE 3039
+EXPOSE 3040
 
 # Use non-reload mode for production (use --reload only for local dev)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3039"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3040"]
