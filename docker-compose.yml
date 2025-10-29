@@ -3,11 +3,14 @@ version: '3.9'
 services:
   fastapi-app:
     build: .
-    image: kashifmalik2786/telegram_project:v.1.0.10
+    image: kashifmalik2786/telegram_project:v.1.0.17
     container_name: telegram_bot
     ports:
       - "3040:3040"
     env_file:
       - .env
+    volumes:
+      - ./session.session:/app/session.session
+      - ./bot_session.session:/app/bot_session.session
     restart: unless-stopped
     working_dir: /app

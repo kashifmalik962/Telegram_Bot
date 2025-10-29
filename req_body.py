@@ -10,3 +10,11 @@ class UserSubscription(BaseModel):
 # Define input model for validation
 class UserCheckRequest(BaseModel):
     user_id: int
+
+
+class SubscribeRequest(BaseModel):
+    phone: str
+    duration_days: int
+
+class PhoneCheckRequest(BaseModel):
+    phone: str

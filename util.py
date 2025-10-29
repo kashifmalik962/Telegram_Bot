@@ -14,12 +14,22 @@ logging.basicConfig(
 
 # load environment variables
 load_dotenv()
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-GROUP_CHAT_ID = os.getenv("GROUP_CHAT_ID")
-MONGO_URI = os.getenv("MONGO_URI")
-DB = os.getenv("DB")
-USER_COLLECTION = os.getenv("USER_COLLECTION")
-LOG_COLLECTION = os.getenv("LOG_COLLECTION")  # New: telegram_log
+
+IS_PROD=os.getenv("IS_PROD")
+if IS_PROD:
+    BOT_TOKEN = os.getenv("PROD_BOT_TOKEN")
+    GROUP_CHAT_ID = os.getenv("PROD_GROUP_CHAT_ID")
+    MONGO_URI = os.getenv("MONGO_URI")
+    DB = os.getenv("DB")
+    USER_COLLECTION = os.getenv("USER_COLLECTION")
+    LOG_COLLECTION = os.getenv("LOG_COLLECTION")  # New: telegram_log
+else:
+    BOT_TOKEN = os.getenv("DEV_BOT_TOKEN")
+    GROUP_CHAT_ID = os.getenv("DEV_GROUP_CHAT_ID")
+    MONGO_URI = os.getenv("MONGO_URI")
+    DB = os.getenv("DB")
+    USER_COLLECTION = os.getenv("USER_COLLECTION")
+    LOG_COLLECTION = os.getenv("LOG_COLLECTION")  # New: telegram_log
 
 # MongoDB Setup
 client = pymongo.MongoClient(MONGO_URI)
