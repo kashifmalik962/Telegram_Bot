@@ -15,7 +15,7 @@ logging.basicConfig(
 # load environment variables
 load_dotenv()
 
-IS_PROD=os.getenv("IS_PROD")
+IS_PROD = os.getenv("IS_PROD", "False").lower() == "true"
 if IS_PROD:
     BOT_TOKEN = os.getenv("PROD_BOT_TOKEN")
     GROUP_CHAT_ID = os.getenv("PROD_GROUP_CHAT_ID")

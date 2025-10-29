@@ -51,6 +51,7 @@ else:
     WEBHOOK_URL = os.getenv("DEV_WEBHOOK_URL")
 
 print("IS_PROD", IS_PROD)
+print("BOT_TOKEN", BOT_TOKEN)
 print("WEBHOOK_URL", WEBHOOK_URL)
 print("PHONE", PHONE)
 print("GROUP_CHAT_ID", GROUP_CHAT_ID)
