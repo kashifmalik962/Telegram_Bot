@@ -1,132 +1,124 @@
-from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message, KeyboardButton, ReplyKeyboardMarkup, ChatJoinRequest
-from aiogram.filters import CommandStart
 import asyncio
-import time
 import logging
+from telethon import TelegramClient
+from telethon.tl.functions.channels import GetParticipantsRequest
+from telethon.tl.types import ChannelParticipantsSearch
+from telethon.errors import FloodWaitError, UserPrivacyRestrictedError
 
-BOT_TOKEN = "8258489863:AAFEH6pypIYxHSulwNey-t-sdy2_NwEIeU4"
-GROUP_ID = -1001234567890  # Replace with your Telegram group ID
+# ----------------------------------------------------------------------
+# CONFIGURATION (REPLACE THESE)
+# ----------------------------------------------------------------------
+API_ID = 27919113          # <-- Your API ID from my.telegram.org
+API_HASH = "eae1a8a3cfcf4d44c1ccc0acf3f7a8c6"  # <-- Your API Hash (string)
+PHONE = "+919897178705"      # <-- Your phone number (with +country code)
+OLD_CHAT_ID = -1003294223338  # <-- Your Old Group ID
 
-logging.basicConfig(level=logging.INFO)
-bot = Bot(BOT_TOKEN)
-dp = Dispatcher()
+# ----------------------------------------------------------------------
+# Logging
+# ----------------------------------------------------------------------
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
+log = logging.getLogger(__name__)
 
-# ---- TEMP STORAGE (Replace with MongoDB / PostgreSQL later) ----
-mobile_to_user = {}
-invite_to_user = {}
+# ----------------------------------------------------------------------
+# Get all members (paginated)
+# ----------------------------------------------------------------------
+async def get_all_members(client):
+    all_members = []
+    offset = 0
+    limit = 200  # Telegram max per request
 
-# ---------------- Helper ----------------
-def phone_keyboard():
-    return ReplyKeyboardMarkup(
-        keyboard=[[KeyboardButton(text="📱 Share phone number", request_contact=True)]],
-        resize_keyboard=True,
-        one_time_keyboard=True
-    )
-
-# ---------------- /start ----------------
-@dp.message(CommandStart())
-async def start_command(message: Message):
-    """
-    User clicks bot link: /start <mobile>
-    Example: t.me/YourBot?start=919876543210
-    """
-    parts = message.text.split()
-    expected_mobile = parts[1] if len(parts) > 1 else None
-
-    if not expected_mobile:
-        await message.answer(
-            "⚠️ Please open your personal invite link. "
-            "It should look like this:\n\n👉 /start <your-mobile-number>"
-        )
-        return
-
-    # Store expected mobile temporarily (replace with DB save)
-    mobile_to_user[message.from_user.id] = {"expected_mobile": expected_mobile}
-
-    await message.answer(
-        f"Hi {message.from_user.first_name}! 👋\n\n"
-        f"Please verify your mobile number: +{expected_mobile}\n\n"
-        "Tap the button below to share your phone number 👇",
-        reply_markup=phone_keyboard()
-    )
-
-# ---------------- Contact Verification ----------------
-@dp.message(F.contact)
-async def handle_contact(message: Message):
-    user_id = message.from_user.id
-    user_phone = message.contact.phone_number.replace("+", "").strip()
-
-    user_info = mobile_to_user.get(user_id)
-    if not user_info:
-        await message.answer("⚠️ Please restart the bot using your personal invite link.")
-        return
-
-    expected_mobile = user_info["expected_mobile"]
-
-    # Compare mobile numbers
-    if user_phone != expected_mobile:
-        await message.answer(
-            "❌ The shared phone number doesn’t match the one you registered with.\n"
-            "Please restart the process using your registered number."
-        )
-        return
-
-    # ✅ Mobile verified successfully
-    mobile_to_user[expected_mobile] = user_id
-
-    # Create single-use join link (valid for 1 hour)
-    expire_at = int(time.time()) + 3600
-    invite_link = await bot.create_chat_invite_link(
-        chat_id=GROUP_ID,
-        name=f"Personal link for {user_id}",
-        expire_date=expire_at,
-        member_limit=1,
-        creates_join_request=True
-    )
-
-    # Map invite link → allowed user
-    invite_to_user[invite_link.invite_link] = user_id
-
-    await message.answer(
-        "✅ Mobile number verified successfully!\n\n"
-        "Here’s your personal join link (valid for 1 hour, single-use):\n\n"
-        f"{invite_link.invite_link}\n\n"
-        "⚠️ Only you can use this link. Others will be automatically declined."
-    )
-
-# ---------------- Handle Join Requests ----------------
-@dp.chat_join_request()
-async def handle_join_request(event: ChatJoinRequest):
-    """
-    Auto-approve/decline join requests based on invite link mapping.
-    """
-    allowed_user_id = None
-
-    if event.invite_link:
-        allowed_user_id = invite_to_user.get(event.invite_link.invite_link)
-
-    if allowed_user_id and event.from_user.id == allowed_user_id:
-        await bot.approve_chat_join_request(chat_id=event.chat.id, user_id=event.from_user.id)
-        logging.info(f"✅ Approved join request from {event.from_user.id}")
-    else:
-        await bot.decline_chat_join_request(chat_id=event.chat.id, user_id=event.from_user.id)
-        logging.info(f"🚫 Declined join request from {event.from_user.id}")
-
+    while True:
         try:
-            await bot.send_message(
-                chat_id=event.from_user.id,
-                text=(
-                    "❌ You are not authorized to join this group.\n"
-                    "Please use the verified Telegram account that matches your registered mobile number."
-                )
-            )
-        except Exception:
-            pass  # User might have no open chat with bot
+            # Fetch batch of participants
+            participants = await client(GetParticipantsRequest(
+                channel=OLD_CHAT_ID,
+                filter=ChannelParticipantsSearch(''),  # Empty search = all members
+                offset=offset,
+                limit=limit,
+                hash=0  # Required for pagination
+            ))
 
-# ---------------- Main ----------------
+            if not participants.users:
+                break
+
+            # Extract user IDs (skip deleted/bots if needed)
+            for user in participants.users:
+                if not user.deleted and not user.bot:
+                    all_members.append({
+                        'id': user.id,
+                        'username': user.username or 'No Username',
+                        'first_name': user.first_name or '',
+                        'last_name': user.last_name or ''
+                    })
+
+            print("all_members",all_members)
+            fetched = len(participants.users)
+            print("fetched",fetched)
+            log.info(f"Fetched {fetched} users (total: {len(all_members)})")
+
+            if fetched < limit:
+                break  # End of list
+
+            offset += fetched
+            await asyncio.sleep(1)  # Rate limit: 1s pause
+
+        except FloodWaitError as e:
+            log.warning(f"Flood wait: {e.seconds}s")
+            await asyncio.sleep(e.seconds)
+        except UserPrivacyRestrictedError:
+            log.error("Privacy restricted — can't access some users")
+            continue
+        except Exception as e:
+            log.error(f"Error: {e}")
+            break
+
+    return all_members
+
+# ----------------------------------------------------------------------
+# Main
+# ----------------------------------------------------------------------
 async def main():
-    await dp.start_polling(bot)
+    # Create client
+    client = TelegramClient('session', API_ID, API_HASH)
 
+    await client.start(phone=PHONE)  # Will prompt for code on first run
+
+    me = await client.get_me()
+    log.info(f"Logged in as: {me.first_name} (@{me.username})")
+
+    # Verify you're in the group
+    try:
+        chat = await client.get_entity(OLD_CHAT_ID)
+        log.info(f"Group: {chat.title} (ID: {OLD_CHAT_ID})")
+    except Exception as e:
+        log.error(f"Can't access group: {e} — ensure you're a member/admin")
+        return
+
+    # Get members
+    log.info("Starting member extraction...")
+    members = await get_all_members(client)
+
+    log.info(f"\n=== RESULTS ===\nTotal members found: {len(members)}")
+
+    # Print IDs
+    for member in members:
+        print(f"ID: {member['id']} | Username: @{member['username']} | Name: {member['first_name']} {member['last_name']}")
+
+    # Save to CSV (for easy import to MongoDB/next script)
+    import csv
+    with open('old_group_members.csv', 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=['id', 'username', 'first_name', 'last_name'])
+        writer.writeheader()
+        writer.writerows(members)
+    log.info("Saved to old_group_members.csv")
+
+    await client.disconnect()
+
+# ----------------------------------------------------------------------
+# Run
+# ----------------------------------------------------------------------
 if __name__ == "__main__":
     asyncio.run(main())

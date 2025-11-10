@@ -1,3 +1,5 @@
+# -------------------------------------------------------------
+# main.py
 from fastapi import FastAPI, HTTPException, Request
 from contextlib import asynccontextmanager
 from fastapi.responses import JSONResponse
@@ -5,25 +7,24 @@ from fastapi.encoders import jsonable_encoder
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
+import re
+import logging
+import requests
+import asyncio
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
 from telethon import TelegramClient
-from telethon.errors import PhoneNumberInvalidError
-from telethon.tl.functions.contacts import ImportContactsRequest, DeleteContactsRequest
-from telethon.tl.types import InputPhoneContact
 from util import *
-from req_body import *
 from scheduler import *
-import logging
 
-# Configure logging
+# -------------------- Logging --------------------
 logging.basicConfig(
     filename='app.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# -------------------- Load environment --------------------
+# -------------------- Load Env --------------------
 load_dotenv()
 
 IS_PROD = os.getenv("IS_PROD", "False").lower() == "true"
@@ -31,67 +32,83 @@ if IS_PROD:
     MONGO_URI = os.getenv("MONGO_URI")
     DB = os.getenv("DB")
     USER_COLLECTION = os.getenv("USER_COLLECTION")
-    LOG_COLLECTION = os.getenv("LOG_COLLECTION")  # New: telegram_log
+    LOG_COLLECTION = os.getenv("LOG_COLLECTION")
     BOT_TOKEN = os.getenv("PROD_BOT_TOKEN")
-    PHONE = os.getenv("PROD_PHONE")  # Your Telegram number
+    PHONE = os.getenv("PROD_PHONE")
     API_ID = int(os.getenv("API_ID"))
     API_HASH = os.getenv("API_HASH")
     PORT = int(os.getenv("PORT"))
     WEBHOOK_URL = os.getenv("PROD_WEBHOOK_URL")
+    BOT_USERNAME = os.getenv("PROD_BOT_USERNAME", "")
 else:
     MONGO_URI = os.getenv("MONGO_URI")
     DB = os.getenv("DB")
     USER_COLLECTION = os.getenv("USER_COLLECTION")
-    LOG_COLLECTION = os.getenv("LOG_COLLECTION")  # New: telegram_log
+    LOG_COLLECTION = os.getenv("LOG_COLLECTION")
     BOT_TOKEN = os.getenv("DEV_BOT_TOKEN")
-    PHONE = os.getenv("DEV_PHONE")  # Your Telegram number
+    PHONE = os.getenv("DEV_PHONE")
     API_ID = int(os.getenv("API_ID"))
     API_HASH = os.getenv("API_HASH")
     PORT = int(os.getenv("PORT"))
     WEBHOOK_URL = os.getenv("DEV_WEBHOOK_URL")
+    BOT_USERNAME = os.getenv("DEV_BOT_USERNAME", "")
 
-print("IS_PROD", IS_PROD)
-print("BOT_TOKEN", BOT_TOKEN)
-print("WEBHOOK_URL", WEBHOOK_URL)
-print("PHONE", PHONE)
-print("GROUP_CHAT_ID", GROUP_CHAT_ID)
+# ---- Validate ----
+if not BOT_USERNAME:
+    logging.warning("BOT_USERNAME not set in .env")
 
-# -------------------- MongoDB Setup --------------------
+print("IS_PROD:", IS_PROD)
+print("BOT_TOKEN:", BOT_TOKEN)
+print("WEBHOOK_URL:", WEBHOOK_URL)
+print("GROUP_CHAT_ID:", GROUP_CHAT_ID)
+
+# -------------------- MongoDB --------------------
 mongo_client = AsyncIOMotorClient(MONGO_URI)
 db = mongo_client[DB]
 users_collection = db[USER_COLLECTION]
 log_collection = db[LOG_COLLECTION]
 
-# -------------------- Telethon Setup --------------------
+# -------------------- Telethon --------------------
 client = TelegramClient('session', API_ID, API_HASH)
 
-# -------------------- FastAPI Lifespan --------------------
+# -------------------- Helpers --------------------
+def validate_phone(phone: str) -> bool:
+    return bool(re.match(r'^\+[1-9]\d{1,14}$', phone))
+
+async def _tg_get(url: str):
+    return await asyncio.to_thread(requests.get, url)
+
+async def approve_join_request(user_id: int):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/approveChatJoinRequest?chat_id={GROUP_CHAT_ID}&user_id={user_id}"
+    await _tg_get(url)
+
+async def decline_join_request(user_id: int):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/declineChatJoinRequest?chat_id={GROUP_CHAT_ID}&user_id={user_id}"
+    await _tg_get(url)
+
+async def revoke_invite_link(link: str):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/revokeChatInviteLink?chat_id={GROUP_CHAT_ID}&invite_link={link}"
+    await _tg_get(url)
+
+# -------------------- Lifespan --------------------
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await client.start(PHONE)
+    await client.start(phone=PHONE)
     start_expiry_check()
 
-    # Set Telegram webhook
-    webhook_url = f"{WEBHOOK_URL}/webhook"  # e.g., https://your-app.herokuapp.com/webhook
-    print("webhook_url with endpoint", webhook_url)
-    set_webhook_url = f"https://api.telegram.org/bot{BOT_TOKEN}/setWebhook?url={webhook_url}"
-    response = requests.get(set_webhook_url)
-    print("response",response.json())
-    logging.info(f"Webhook set response: {response.json()}")
+    webhook_url = f"{WEBHOOK_URL}/webhook"
+    await _tg_get(f"https://api.telegram.org/bot{BOT_TOKEN}/setWebhook?url={webhook_url}")
+    logging.info("Webhook set")
 
     yield
+
     await client.disconnect()
     mongo_client.close()
+    await _tg_get(f"https://api.telegram.org/bot{BOT_TOKEN}/deleteWebhook")
 
-    # Optional: Delete webhook on shutdown
-    delete_webhook_url = f"https://api.telegram.org/bot{BOT_TOKEN}/deleteWebhook"
-    response = requests.get(delete_webhook_url)
-    logging.info(f"Webhook delete response: {response.json()}")
-
-# -------------------- FastAPI App --------------------
 app = FastAPI(lifespan=lifespan)
 
-# -------------------- Request Models --------------------
+# -------------------- Models --------------------
 class SubscribeRequest(BaseModel):
     phone: str
     duration_days: int
@@ -99,390 +116,190 @@ class SubscribeRequest(BaseModel):
 class PhoneCheckRequest(BaseModel):
     phone: str
 
+# ==================== WEBHOOK – AUTO APPROVE + SAVE telegram_id ====================
 @app.post("/webhook")
-async def handle_webhook(request: Request):
+async def webhook(request: Request):
     try:
-        print("webhook running...")
         update = await request.json()
-        logging.info(f"Received webhook update: {update}")
+        logging.info(f"Webhook update: {update}")
+
+        if "chat_join_request" not in update:
+            return {"ok": True}
+
+        req = update["chat_join_request"]
+        chat_id = req["chat"]["id"]
+        user_id = req["from"]["id"]
+        username = req["from"].get("username", "")
+        invite_link = req.get("invite_link", {}).get("invite_link", "")
+
+
+        print("chat_id", chat_id)
+        print("user_id", user_id)
+        print("username", username)
+        print("invite_link", invite_link)
+        print("req", req)
         
-        if "chat_join_request" in update:
-            join_request = update["chat_join_request"]
-            chat_id = join_request["chat"]["id"]
-            user_id = join_request["from"]["id"]
-            invite_link = join_request.get("invite_link", {}).get("invite_link", "")
-            logging.info(f"Join request: chat_id={chat_id}, user_id={user_id}, invite_link={invite_link}")
+        
+        if chat_id != int(GROUP_CHAT_ID):
+            return {"ok": True}
 
-            print("chat_id", chat_id)
-            print("user_id", user_id)
-            print("invite_link", invite_link)
+        # Find subscription by invite_link
+        sub = await users_collection.find_one({"invite_link": invite_link, "joined": False})
+        if not sub:
+            await decline_join_request(user_id)
+            await telegram_bot_sendtext("This link is invalid or already used.", user_id)
+            return {"ok": True}
 
-            if chat_id != int(GROUP_CHAT_ID):
-                logging.info(f"Ignoring join request for chat_id {chat_id}")
-                return {"ok": True}
+        # APPROVE
+        await approve_join_request(user_id)
 
-            db_entry = await users_collection.find_one({"invite_link": invite_link})
-            print("db_entry", db_entry)
-            logging.info(f"DB entry for invite_link {invite_link}: {db_entry}")
-            if db_entry and db_entry["telegram_id"] == user_id and not db_entry["joined"]:
-                approve_url = f"https://api.telegram.org/bot{BOT_TOKEN}/approveChatJoinRequest?chat_id={GROUP_CHAT_ID}&user_id={user_id}"
-                response = requests.get(approve_url)
-                logging.info(f"Approve response: {response.json()}")
+        # SAVE telegram_id
+        update_data = {
+            "joined": True,
+            "telegram_id": user_id,
+            "username": username
+        }
+        await users_collection.update_one(
+            {"invite_link": invite_link},
+            {"$set": update_data}
+        )
+        await log_collection.update_one(
+            {"invite_link": invite_link},
+            {"$set": update_data}
+        )
 
-                users_collection.update_one(
-                    {"telegram_id": user_id},
-                    {"$set": {"joined": True}}
-                )
-                # Mirror to log_collection
-                log_collection.update_one(
-                    {"telegram_id": user_id},
-                    {"$set": {"joined": True}}
-                )
-                logging.info(f"Marked user {user_id} as joined in both collections")
+        # REVOKE one-time link
+        try:
+            await revoke_invite_link(invite_link)
+        except:
+            pass
 
-                revoke_url = f"https://api.telegram.org/bot{BOT_TOKEN}/revokeChatInviteLink?chat_id={GROUP_CHAT_ID}&invite_link={invite_link}"
-                response = requests.get(revoke_url)
-                logging.info(f"Revoke link response: {response.json()}")
-
-                telegram_bot_sendtext("🎉 Welcome! Your subscription is active.", user_id)
-            else:
-                print("❌ This invite link is not for your account")
-                decline_url = f"https://api.telegram.org/bot{BOT_TOKEN}/declineChatJoinRequest?chat_id={GROUP_CHAT_ID}&user_id={user_id}"
-                response = requests.get(decline_url)
-                logging.info(f"Decline response: {response.json()}")
-                telegram_bot_sendtext("❌ This invite link is not for your account. Request declined.", user_id)
+        await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+        logging.info(f"User {user_id} joined via invite_link")
 
         return {"ok": True}
+
     except Exception as e:
         logging.error(f"Webhook error: {e}", exc_info=True)
         return {"ok": False}
 
-# -------------------- Helper Functions --------------------
-async def get_telegram_id_by_phone(phone: str):
-    """
-    Import a phone contact, return Telegram ID and username if exists.
-    """
-    try:
-        contact = InputPhoneContact(client_id=0, phone=phone, first_name="Temp", last_name="Temp")
-        result = await client(ImportContactsRequest([contact]))
-        if result.users:
-            user = result.users[0]
-            await client(DeleteContactsRequest(id=[user.id]))  # optional cleanup
-            return user.id, getattr(user, "username", None)
-        return None, None
-    except PhoneNumberInvalidError:
-        return None, None
-
-# -------------------- Check User by Phone Endpoint --------------------
+# ==================== ENDPOINTS ====================
 @app.post("/check-user-by-phone")
-async def check_user_by_phone(request: PhoneCheckRequest):
-    try:
-        telegram_id, username = await get_telegram_id_by_phone(request.phone)
-        if telegram_id:
-            return {"exists": True, "telegram_id": telegram_id, "username": username, "phone": request.phone}
-        return {"exists": False, "telegram_id": None, "username": None, "phone": request.phone}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+async def check_phone(req: PhoneCheckRequest):
+    if not validate_phone(req.phone):
+        return {"valid": False, "message": "Invalid phone format"}
+    return {"valid": True, "message": "Phone valid. Proceed to subscribe."}
 
-# -------------------- Subscribe Endpoint --------------------
 @app.post("/subscribe")
-async def subscribe_user(request: SubscribeRequest):
+async def subscribe(req: SubscribeRequest):
     try:
-        phone = request.phone
-        duration_days = request.duration_days
+        phone = req.phone
+        days = req.duration_days
 
-        if not phone or not duration_days or duration_days <= 0:
-            return JSONResponse(status_code=400, content={
-                "status_code": 0,
-                "message": "phone or duration_days missing/invalid"
-            })
+        if not validate_phone(phone) or days <= 0:
+            return JSONResponse(status_code=400, content={"status_code":0, "message":"Invalid input"})
+        if await users_collection.find_one({"phone": phone}):
+            return JSONResponse(status_code=400, content={"status_code":0, "message":"Already subscribed"})
 
-        telegram_id, username = await get_telegram_id_by_phone(phone)
-        if not telegram_id:
-            return JSONResponse(status_code=404, content={
-                "status_code": 0,
-                "message": "Telegram account not found for this phone number"
-            })
+        # Create one-time join-request link
+        group_link = create_temp_invite_link()
+        if not group_link:
+            return JSONResponse(status_code=500, content={"status_code":0, "message":"Failed to create link"})
 
-        invite_link = create_temp_invite_link()
-        if not invite_link:
-            telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
-            return JSONResponse(status_code=500, content={
-                "status_code": 0,
-                "message": "Failed to generate invite link"
-            })
+        expiry = datetime.now() + timedelta(days=days)
 
-        expiry_date = datetime.now() + timedelta(days=duration_days)
-
-        # Prepare data
-        user_data = {
-            "telegram_id": telegram_id,
+        doc = {
             "phone": phone,
-            "username": username,
-            "invite_link": invite_link,
-            "expiry_date": expiry_date,
-            "joined": False
+            "invite_link": group_link,
+            "expiry_date": expiry,
+            "joined": False,
+            "telegram_id": None,
+            "username": None
         }
 
-        # Save to main collection
-        users_collection.update_one(
-            {"telegram_id": telegram_id},
-            {"$set": user_data},
-            upsert=True
-        )
-        logging.info(f"Subscribed user {telegram_id} in users_collection")
-
-        # Mirror to log collection
-        log_collection.update_one(
-            {"telegram_id": telegram_id},
-            {"$set": user_data},
-            upsert=True
-        )
-        logging.info(f"Mirrored subscribed user {telegram_id} to log_collection")
-
-        print("invite_link", invite_link)
-        telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
+        await users_collection.insert_one(doc)
+        await log_collection.insert_one(doc.copy())
 
         return JSONResponse(status_code=200, content={
             "status_code": 1,
-            "message": "User subscribed successfully",
+            "message": "Click below to join. Your request will be approved automatically.",
             "phone": phone,
-            "telegram_id": telegram_id,
-            "username": username,
-            "invite_link": invite_link,
-            "expiry_date": jsonable_encoder(expiry_date)
+            "group_link": group_link,
+            "expiry_date": jsonable_encoder(expiry)
         })
 
     except Exception as e:
         logging.error(f"Subscribe error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-# -------------------- Extend Plan Endpoint --------------------
+# ---- Extend Plan ----
 @app.post("/extend-plan")
-async def extend_plan(request: SubscribeRequest):
+async def extend(req: SubscribeRequest):
     try:
-        phone = request.phone
-        extra_days = request.duration_days
+        phone = req.phone
+        days = req.duration_days
+        if not validate_phone(phone) or days <= 0:
+            return JSONResponse(status_code=400, content={"status_code":0, "message":"Invalid"})
 
-        if not phone or not extra_days or extra_days <= 0:
-            return JSONResponse(status_code=400, content={
-                "status_code": 0,
-                "message": "phone or duration_days missing/invalid"
-            })
+        user = await users_collection.find_one({"phone": phone})
+        base = user["expiry_date"] if user and user["expiry_date"] > datetime.now() else datetime.now()
+        new_expiry = base + timedelta(days=days)
 
-        telegram_id, username = await get_telegram_id_by_phone(phone)
-        if not telegram_id:
-            return JSONResponse(status_code=404, content={
-                "status_code": 0,
-                "message": "Telegram account not found for this phone number"
-            })
+        update = {"expiry_date": new_expiry}
+        if user and not user.get("joined"):
+            await revoke_invite_link(user["invite_link"])
+            new_link = create_temp_invite_link()
+            if not new_link:
+                return JSONResponse(status_code=500, content={"status_code":0, "message":"Link failed"})
+            update["invite_link"] = new_link
 
-        user = await users_collection.find_one({"telegram_id": telegram_id})
+        await users_collection.update_one({"phone": phone}, {"$set": update})
+        await log_collection.update_one({"phone": phone}, {"$set": update})
 
-        if user:
-            previous_expiry = user.get("expiry_date")
-            base_date = previous_expiry if previous_expiry and previous_expiry > datetime.now() else datetime.now()
-            new_expiry_date = base_date + timedelta(days=extra_days)
-            duration_days = (new_expiry_date - datetime.now()).days
+        if user and user.get("telegram_id"):
+            telegram_bot_sendtext(f"Plan extended to {new_expiry:%Y-%m-%d}", user["telegram_id"])
 
-            update_data = {"expiry_date": new_expiry_date}
-            invite_link = user.get("invite_link")
-            if not user.get("joined"):
-                # Revoke old link if exists
-                if user.get("invite_link"):
-                    revoke_url = f"https://api.telegram.org/bot{BOT_TOKEN}/revokeChatInviteLink?chat_id={GROUP_CHAT_ID}&invite_link={user['invite_link']}"
-                    response = requests.get(revoke_url)
-                    logging.info(f"Revoke old link response: {response.json()}")
-
-                invite_link = create_temp_invite_link()
-                if not invite_link:
-                    telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
-                    return JSONResponse(status_code=500, content={
-                        "status_code": 0,
-                        "message": "Failed to generate invite link"
-                    })
-                update_data["invite_link"] = invite_link
-                update_data["username"] = username
-                telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
-
-            # Update main collection
-            users_collection.update_one(
-                {"telegram_id": telegram_id},
-                {"$set": update_data}
-            )
-            logging.info(f"Extended plan for user {telegram_id} in users_collection")
-
-            # Mirror to log collection
-            log_collection.update_one(
-                {"telegram_id": telegram_id},
-                {"$set": update_data}
-            )
-            logging.info(f"Mirrored extended plan for user {telegram_id} to log_collection")
-
-            telegram_bot_sendtext(f"🎉 Your plan has been extended until {new_expiry_date}", telegram_id)
-
-            return JSONResponse(status_code=200, content={
-                "status_code": 1,
-                "message": "User plan extended successfully",
-                "phone": phone,
-                "telegram_id": telegram_id,
-                "username": username,
-                "invite_link": invite_link,
-                "expiry_date": jsonable_encoder(new_expiry_date),
-                "data": {
-                    "previous_expiry": jsonable_encoder(previous_expiry),
-                    "new_expiry": jsonable_encoder(new_expiry_date),
-                    "duration_days": duration_days
-                }
-            })
-
-        else:
-            invite_link = create_temp_invite_link()
-            if not invite_link:
-                telegram_bot_sendtext("❌ Failed to generate invite link. Please try again later.", telegram_id)
-                return JSONResponse(status_code=500, content={
-                    "status_code": 0,
-                    "message": "Failed to generate invite link"
-                })
-
-            new_expiry_date = datetime.now() + timedelta(days=extra_days)
-            duration_days = extra_days
-
-            # Prepare data
-            user_data = {
-                "telegram_id": telegram_id,
-                "phone": phone,
-                "username": username,
-                "invite_link": invite_link,
-                "expiry_date": new_expiry_date,
-                "joined": False
-            }
-
-            # Save to main collection
-            users_collection.update_one(
-                {"telegram_id": telegram_id},
-                {"$set": user_data},
-                upsert=True
-            )
-            logging.info(f"Extended (new) plan for user {telegram_id} in users_collection")
-
-            # Mirror to log collection
-            log_collection.update_one(
-                {"telegram_id": telegram_id},
-                {"$set": user_data},
-                upsert=True
-            )
-            logging.info(f"Mirrored extended (new) plan for user {telegram_id} to log_collection")
-
-            telegram_bot_sendtext(f"Click here to join the group: {invite_link}", telegram_id)
-
-            return JSONResponse(status_code=200, content={
-                "status_code": 1,
-                "message": "User plan extended successfully",
-                "phone": phone,
-                "telegram_id": telegram_id,
-                "username": username,
-                "invite_link": invite_link,
-                "expiry_date": jsonable_encoder(new_expiry_date),
-                "data": {
-                    "previous_expiry": None,
-                    "new_expiry": jsonable_encoder(new_expiry_date),
-                    "duration_days": duration_days
-                }
-            })
-
+        return JSONResponse(status_code=200, content={
+            "status_code": 1,
+            "expiry_date": jsonable_encoder(new_expiry),
+            "group_link": update.get("invite_link")
+        })
     except Exception as e:
-        logging.error(f"Extend plan error: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"Extend error: {e}")
+        raise HTTPException(status_code=500)
 
-# -------------------- Get All Active user Endpoint --------------------
+# ---- Admin Endpoints ----
 @app.get("/get-all-active-user")
-async def get_all_active_user():
-    try:
-        # Fetch all joined=True users
-        joined_true_cursor = users_collection.find({"joined": True})
-        joined_true_users = []
-        async for user in joined_true_cursor:
-            user["_id"] = str(user["_id"])  # convert ObjectId to string
-            joined_true_users.append(user)
-
-        # Fetch all joined=False users
-        joined_false_cursor = users_collection.find({"joined": False})
-        joined_false_users = []
-        async for user in joined_false_cursor:
-            user["_id"] = str(user["_id"])
-            joined_false_users.append(user)
-
-        data = {
-            "joined_true_count": len(joined_true_users),
-            "joined_false_count": len(joined_false_users),
-            "joined_true_users": joined_true_users,
-            "joined_false_users": joined_false_users
+async def get_all():
+    joined = [u async for u in users_collection.find({"joined": True})]
+    pending = [u async for u in users_collection.find({"joined": False})]
+    for u in joined + pending:
+        u["_id"] = str(u["_id"])
+    return JSONResponse(status_code=200, content={
+        "status_code": 1,
+        "data": {
+            "joined": len(joined),
+            "pending": len(pending),
+            "joined_users": joined,
+            "pending_users": pending
         }
+    })
 
-        return JSONResponse(
-            status_code=200,
-            content={
-                "message": "Successfully retrieved candidate data.",
-                "status_code": 1,
-                "data": jsonable_encoder(data)
-            }
-        )
-
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "message": "Failed to retrieve candidate data.",
-                "status_code": 0,
-                "error": str(e)
-            }
-        )
-    
-
-# -------------------- Get out user from group Endpoint --------------------
 @app.post("/get-out-user-group")
-async def get_out_user_group(telegram_id: int):
-    try:
-        user_exist = await users_collection.find_one({"telegram_id": telegram_id})
-        if not user_exist:
-            return JSONResponse(
-                status_code=404,
-                content={
-                    "message": "User not exist.",
-                    "status_code": 0
-                }
-            )
-        kick_user(telegram_id)
-        users_collection.delete_one({"telegram_id": telegram_id})
-        print(f"User {telegram_id} kicked by admin.")
+async def kick(telegram_id: int):
+    user = await users_collection.find_one({"telegram_id": telegram_id})
+    if not user:
+        return JSONResponse(status_code=404, content={"status_code":0, "message":"Not found"})
+    kick_user(telegram_id)
+    await users_collection.delete_one({"telegram_id": telegram_id})
+    return JSONResponse(status_code=200, content={"status_code":1})
 
-        return JSONResponse(
-            status_code=200,
-            content={
-                "message": "Successfully removed candidate from group.",
-                "status_code": 1,
-                "telegram_id": telegram_id
-            }
-        )
-    except Exception as e:
-        return JSONResponse(
-            status_code=500,
-            content={
-                "message": "Failed to retrieve candidate data.",
-                "status_code": 0,
-                "error": str(e)
-            }
-        )
-
-# -------------------- Manual Kick Endpoint --------------------
 @app.get("/kick_expired_users")
-def kick_expired_users():
+def kick_expired():
     check_and_kick_users()
-    return {"message": "Expired users kicked successfully"}
+    return {"ok": True}
 
-
-# -------------------- Run App --------------------
+# -------------------- Run --------------------
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
