@@ -465,3 +465,617 @@ TypeError: object dict can't be used in 'await' expression
 2025-11-14 21:15:33,575 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
 2025-11-14 21:15:33,579 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
 2025-11-14 21:15:33,581 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:37:31,830 - INFO - Scheduler started
+2025-11-17 16:37:40,072 - INFO - Scheduler started
+2025-11-17 16:37:43,325 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:37:43,445 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:37:45,077 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:37:45,878 - INFO - Webhook set
+2025-11-17 16:39:36,808 - INFO - Kick response for 8307332619: {'ok': True, 'result': True}
+2025-11-17 16:39:37,822 - INFO - Unban response for 8307332619: {'ok': True, 'result': True}
+2025-11-17 16:39:37,822 - INFO - [Auto Kick] User 8307332619 kicked successfully.
+2025-11-17 16:40:05,021 - INFO - Generated invite link: https://t.me/+wsY-D5er_8g4Nzg9
+2025-11-17 16:41:43,433 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:41:43,434 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:41:43,435 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:42:04,191 - INFO - Scheduler started
+2025-11-17 16:42:08,654 - INFO - Scheduler started
+2025-11-17 16:42:09,069 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:42:09,181 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:42:36,386 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:42:37,222 - INFO - Webhook set
+2025-11-17 16:42:37,383 - INFO - Webhook update: {'update_id': 419353444, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763377887, 'invite_link': {'invite_link': 'https://t.me/+wsY-D5er_8g4Nzg9', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763982603, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 16:42:40,772 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 16:42:40,776 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 199, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 16:42:40,997 - INFO - Webhook update: {'update_id': 419353445, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763377904, 'invite_link': {'invite_link': 'https://t.me/+wsY-D5er_8g4Nzg9', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763982603, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 16:42:41,202 - INFO - Webhook update: {'update_id': 419353446, 'message': {'message_id': 49, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763377969, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-17 16:42:43,279 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 16:42:43,283 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 170, in webhook
+    await telegram_bot_sendtext("This link is invalid or already used.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 16:43:17,826 - INFO - Webhook update: {'update_id': 419353447, 'message': {'message_id': 50, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763378008, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-17 16:43:50,667 - INFO - Generated invite link: https://t.me/+Qgq8aa0pkdkyODNl
+2025-11-17 16:45:12,134 - INFO - Generated invite link: https://t.me/+O8ad_crfO4lmZGRl
+2025-11-17 16:45:28,841 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:45:28,842 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:45:28,843 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:45:38,085 - INFO - Scheduler started
+2025-11-17 16:45:39,577 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:45:39,702 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:45:41,592 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:45:42,414 - INFO - Webhook set
+2025-11-17 16:48:39,943 - INFO - Generated invite link: https://t.me/+N89LRX_yZEY4NDZl
+2025-11-17 16:50:10,429 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:50:10,433 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:50:10,435 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:50:33,583 - INFO - Scheduler started
+2025-11-17 16:50:39,641 - INFO - Scheduler started
+2025-11-17 16:50:40,066 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:50:41,215 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:50:43,018 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:50:43,936 - INFO - Webhook set
+2025-11-17 16:51:12,644 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:51:12,645 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:51:12,645 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:52:00,154 - INFO - Scheduler started
+2025-11-17 16:52:00,595 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:52:00,807 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:52:13,318 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:52:14,093 - INFO - Webhook set
+2025-11-17 16:52:14,195 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:52:14,196 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:52:24,974 - INFO - Scheduler started
+2025-11-17 16:52:25,283 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:52:25,385 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:52:26,961 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:52:27,685 - INFO - Webhook set
+2025-11-17 16:52:32,418 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:52:32,420 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:52:32,421 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:53:00,346 - INFO - Scheduler started
+2025-11-17 16:53:00,846 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:53:01,979 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:53:03,922 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:53:04,804 - INFO - Webhook set
+2025-11-17 16:53:05,924 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:53:05,925 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:53:05,926 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:53:14,978 - INFO - Scheduler started
+2025-11-17 16:53:15,616 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:53:15,798 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:53:25,082 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:53:25,852 - INFO - Webhook set
+2025-11-17 16:53:25,862 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:53:25,863 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:53:43,647 - INFO - Scheduler started
+2025-11-17 16:53:43,927 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:53:44,065 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:53:45,834 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:53:47,930 - INFO - Webhook set
+2025-11-17 16:54:56,737 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:54:56,738 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:54:56,739 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:55:13,420 - INFO - Scheduler started
+2025-11-17 16:55:13,834 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:55:13,966 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:55:14,990 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:55:17,752 - INFO - Webhook set
+2025-11-17 16:55:17,973 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:55:17,974 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:55:17,974 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:55:25,999 - INFO - Scheduler started
+2025-11-17 16:55:26,342 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:55:26,453 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:55:27,468 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:55:28,329 - INFO - Webhook set
+2025-11-17 16:55:36,474 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:55:36,475 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:55:36,476 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:56:10,440 - INFO - Scheduler started
+2025-11-17 16:56:10,762 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:56:10,970 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:56:13,102 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:56:14,671 - INFO - Webhook set
+2025-11-17 16:56:18,286 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:56:18,287 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:56:18,288 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:56:25,152 - INFO - Scheduler started
+2025-11-17 16:56:25,558 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:56:25,683 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:56:27,634 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:56:28,445 - INFO - Webhook set
+2025-11-17 16:56:50,283 - INFO - Generated invite link: https://t.me/+0igGxsWUFKozODll
+2025-11-17 16:57:15,444 - INFO - Webhook update: {'update_id': 419353448, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763378846, 'invite_link': {'invite_link': 'https://t.me/+0igGxsWUFKozODll', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763983609, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 16:57:18,723 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 16:57:18,725 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 202, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 16:57:18,940 - INFO - Webhook update: {'update_id': 419353449, 'message': {'message_id': 51, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763378847, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-17 16:58:30,932 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:58:30,933 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:58:30,934 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:58:42,706 - INFO - Scheduler started
+2025-11-17 16:58:43,007 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:58:44,130 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:58:47,320 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:58:48,078 - INFO - Webhook set
+2025-11-17 16:59:13,559 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 16:59:13,560 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:59:13,560 - INFO - Not disconnecting (already have no connection)
+2025-11-17 16:59:23,189 - INFO - Scheduler started
+2025-11-17 16:59:23,844 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 16:59:24,020 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 16:59:25,412 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 16:59:26,492 - INFO - Webhook set
+2025-11-17 16:59:41,519 - INFO - Webhook update: {'update_id': 419353450, 'message': {'message_id': 52, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763378992, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-17 16:59:54,485 - INFO - Generated invite link: https://t.me/+366hFvL9bSozNGJl
+2025-11-17 17:00:57,718 - INFO - Webhook update: {'update_id': 419353451, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763379068, 'invite_link': {'invite_link': 'https://t.me/+366hFvL9bSozNGJl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763983791, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 17:01:01,204 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 17:01:01,206 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 202, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 17:01:01,417 - INFO - Webhook update: {'update_id': 419353452, 'message': {'message_id': 53, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763379069, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-17 17:03:03,381 - INFO - Kick response for 8307332619: {'ok': True, 'result': True}
+2025-11-17 17:03:03,500 - INFO - Webhook update: {'update_id': 419353453, 'message': {'message_id': 54, 'from': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763379194, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-17 17:03:05,680 - INFO - Unban response for 8307332619: {'ok': True, 'result': True}
+2025-11-17 17:03:05,680 - INFO - [Auto Kick] User 8307332619 kicked successfully.
+2025-11-17 17:03:23,468 - INFO - Generated invite link: https://t.me/+ls3W-b2ELbBhMWQ9
+2025-11-17 17:04:22,965 - INFO - Webhook update: {'update_id': 419353454, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763379273, 'invite_link': {'invite_link': 'https://t.me/+ls3W-b2ELbBhMWQ9', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763984002, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 17:04:27,313 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 17:04:27,315 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 202, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 17:04:27,537 - INFO - Webhook update: {'update_id': 419353455, 'message': {'message_id': 55, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763379275, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-17 17:04:52,736 - INFO - Webhook update: {'update_id': 419353456, 'message': {'message_id': 56, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763379303, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-17 17:27:52,835 - WARNING - Server closed the connection: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-17 17:27:52,836 - INFO - Connection closed while receiving data: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-17 17:27:52,836 - INFO - Closing current connection to begin reconnect...
+2025-11-17 17:27:52,837 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 17:27:52,838 - INFO - <class 'ConnectionResetError'> during disconnect: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-17 17:27:52,944 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 17:29:25,975 - INFO - Got difference for account updates
+2025-11-17 17:32:16,717 - WARNING - Run time of job "check_and_kick_users (trigger: cron[hour='12', minute='0'], next run at: 2025-11-17 12:00:00 UTC)" was missed by 0:02:16.717638
+2025-11-17 18:00:32,646 - INFO - Generated invite link: https://t.me/+VibVoiTwB5M0Yzll
+2025-11-17 18:01:12,545 - INFO - Webhook update: {'update_id': 419353457, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'user_chat_id': 5870225862, 'date': 1763382682, 'invite_link': {'invite_link': 'https://t.me/+VibVoiTwB5M0Yzll', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763987431, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 18:01:17,064 - INFO - Sent message to 5870225862: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 18:01:17,067 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 202, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 18:01:17,292 - INFO - Webhook update: {'update_id': 419353458, 'message': {'message_id': 57, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763382684, 'new_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_members': [{'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}]}}
+2025-11-17 18:01:53,664 - INFO - Kick response for 5870225862: {'ok': True, 'result': True}
+2025-11-17 18:01:53,863 - INFO - Webhook update: {'update_id': 419353459, 'message': {'message_id': 58, 'from': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763382723, 'left_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'left_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}}}
+2025-11-17 18:01:54,715 - INFO - Unban response for 5870225862: {'ok': True, 'result': True}
+2025-11-17 18:01:54,715 - INFO - [Auto Kick] User 5870225862 kicked successfully.
+2025-11-17 18:03:17,732 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 18:03:17,733 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 18:03:17,734 - INFO - Not disconnecting (already have no connection)
+2025-11-17 18:03:46,731 - INFO - Scheduler started
+2025-11-17 18:03:48,800 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-17 18:03:49,925 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-17 18:03:52,813 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-17 18:03:53,935 - INFO - Webhook set
+2025-11-17 18:03:55,074 - INFO - Generated invite link: https://t.me/+KhI7T9ZrJFJkZTM1
+2025-11-17 18:04:20,347 - INFO - Webhook update: {'update_id': 419353460, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'user_chat_id': 5870225862, 'date': 1763382870, 'invite_link': {'invite_link': 'https://t.me/+KhI7T9ZrJFJkZTM1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763987633, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-17 18:04:23,625 - INFO - Sent message to 5870225862: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-17 18:04:23,629 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-17 18:04:23,844 - INFO - Webhook update: {'update_id': 419353461, 'message': {'message_id': 59, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763382871, 'new_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_members': [{'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}]}}
+2025-11-17 18:05:22,437 - INFO - Webhook update: {'update_id': 419353462, 'message': {'message_id': 60, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763382932, 'left_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'left_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}}}
+2025-11-17 18:05:55,230 - INFO - Generated invite link: https://t.me/+u1qBXckRMitkNDQ1
+2025-11-17 19:20:31,707 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-17 19:20:31,710 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-17 19:20:31,710 - INFO - Not disconnecting (already have no connection)
+2025-11-18 10:52:33,287 - INFO - Scheduler started
+2025-11-18 10:52:48,662 - INFO - Scheduler started
+2025-11-18 10:52:50,822 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 10:52:51,934 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 10:52:54,493 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 10:52:55,929 - INFO - Webhook set
+2025-11-18 10:57:31,240 - INFO - Webhook update: {'update_id': 419353463, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763443650, 'invite_link': {'invite_link': 'https://t.me/+u1qBXckRMitkNDQ1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763987753, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 10:57:36,461 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 10:57:36,463 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 10:57:36,682 - INFO - Webhook update: {'update_id': 419353464, 'message': {'message_id': 61, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443653, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 10:57:48,421 - INFO - Webhook update: {'update_id': 419353465, 'message': {'message_id': 62, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443668, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 10:58:08,767 - INFO - Webhook update: {'update_id': 419353466, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763443688, 'invite_link': {'invite_link': 'https://t.me/+u1qBXckRMitkNDQ1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763987753, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 10:58:11,599 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 10:58:11,601 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 10:58:11,828 - INFO - Webhook update: {'update_id': 419353467, 'message': {'message_id': 63, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443689, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 10:58:26,720 - INFO - Webhook update: {'update_id': 419353468, 'message': {'message_id': 64, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443706, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 10:59:40,103 - INFO - Kick response for 8307332619: {'ok': True, 'result': True}
+2025-11-18 10:59:41,152 - INFO - Unban response for 8307332619: {'ok': True, 'result': True}
+2025-11-18 10:59:41,153 - INFO - [Auto Kick] User 8307332619 kicked successfully.
+2025-11-18 11:00:02,239 - INFO - Generated invite link: https://t.me/+SUZEsfIbqvkzZWVl
+2025-11-18 11:00:24,543 - INFO - Webhook update: {'update_id': 419353469, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763443824, 'invite_link': {'invite_link': 'https://t.me/+SUZEsfIbqvkzZWVl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764048601, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 11:00:28,375 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 11:00:28,378 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 11:00:28,625 - INFO - Webhook update: {'update_id': 419353470, 'message': {'message_id': 65, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443825, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 11:00:41,857 - INFO - Webhook update: {'update_id': 419353471, 'message': {'message_id': 66, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443841, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 11:01:14,894 - INFO - Webhook update: {'update_id': 419353472, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'user_chat_id': 5870225862, 'date': 1763443874, 'invite_link': {'invite_link': 'https://t.me/+SUZEsfIbqvkzZWVl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764048601, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 11:01:18,257 - INFO - Sent message to 5870225862: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 11:01:18,260 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 11:01:18,486 - INFO - Webhook update: {'update_id': 419353473, 'message': {'message_id': 67, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443875, 'new_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_members': [{'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}]}}
+2025-11-18 11:01:29,049 - INFO - Webhook update: {'update_id': 419353474, 'message': {'message_id': 68, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443888, 'left_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'left_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}}}
+2025-11-18 11:01:31,519 - INFO - Webhook update: {'update_id': 419353475, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'user_chat_id': 5870225862, 'date': 1763443891, 'invite_link': {'invite_link': 'https://t.me/+SUZEsfIbqvkzZWVl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764048601, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 11:01:33,048 - INFO - Webhook update: {'update_id': 419353476, 'message': {'message_id': 69, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443892, 'new_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'new_chat_members': [{'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}]}}
+2025-11-18 11:01:34,642 - INFO - Sent message to 5870225862: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 11:01:34,643 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 203, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 11:02:56,481 - INFO - Webhook update: {'update_id': 419353477, 'message': {'message_id': 70, 'from': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763443976, 'left_chat_participant': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}, 'left_chat_member': {'id': 5870225862, 'is_bot': False, 'first_name': 'DJ', 'username': 'sjavin', 'language_code': 'en'}}}
+2025-11-18 11:06:22,668 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:06:22,670 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:06:22,670 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:06:31,331 - INFO - Scheduler started
+2025-11-18 11:06:31,751 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:06:31,854 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:06:33,005 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:06:33,741 - INFO - Webhook set
+2025-11-18 11:06:49,457 - INFO - Generated invite link: https://t.me/+CBhFFce0VJUwNmJl
+2025-11-18 11:07:24,402 - INFO - Webhook update: {'update_id': 419353478, 'message': {'message_id': 71, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763444244, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 11:07:48,756 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:07:48,757 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:07:48,757 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:07:58,262 - INFO - Scheduler started
+2025-11-18 11:07:58,779 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:08:00,903 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:08:02,427 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:08:03,204 - INFO - Webhook set
+2025-11-18 11:35:33,297 - WARNING - Server closed the connection: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-18 11:35:33,299 - INFO - Connection closed while receiving data: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-18 11:35:33,300 - INFO - Closing current connection to begin reconnect...
+2025-11-18 11:35:33,300 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:35:33,301 - INFO - <class 'ConnectionResetError'> during disconnect: [WinError 10054] An existing connection was forcibly closed by the remote host
+2025-11-18 11:35:33,302 - WARNING - Attempt 1 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:34,282 - WARNING - Attempt 2 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:35,302 - WARNING - Attempt 3 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:36,303 - WARNING - Attempt 4 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:37,296 - WARNING - Attempt 5 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:38,298 - WARNING - Attempt 6 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:39,302 - INFO - Failed reconnection attempt 1 with ConnectionError
+2025-11-18 11:35:40,301 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:35:40,302 - WARNING - Attempt 1 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:41,289 - WARNING - Attempt 2 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:42,279 - WARNING - Attempt 3 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:43,280 - WARNING - Attempt 4 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:44,294 - WARNING - Attempt 5 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:45,297 - WARNING - Attempt 6 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:46,297 - INFO - Failed reconnection attempt 2 with ConnectionError
+2025-11-18 11:35:47,301 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:35:47,302 - WARNING - Attempt 1 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:48,289 - WARNING - Attempt 2 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:49,302 - WARNING - Attempt 3 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:50,305 - WARNING - Attempt 4 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:51,296 - WARNING - Attempt 5 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:52,305 - WARNING - Attempt 6 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:53,306 - INFO - Failed reconnection attempt 3 with ConnectionError
+2025-11-18 11:35:54,293 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:35:54,294 - WARNING - Attempt 1 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:55,285 - WARNING - Attempt 2 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:56,299 - WARNING - Attempt 3 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:57,317 - WARNING - Attempt 4 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:58,317 - WARNING - Attempt 5 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:35:59,323 - WARNING - Attempt 6 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:00,343 - INFO - Failed reconnection attempt 4 with ConnectionError
+2025-11-18 11:36:01,357 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:36:01,358 - WARNING - Attempt 1 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:02,360 - WARNING - Attempt 2 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:03,379 - WARNING - Attempt 3 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:04,385 - WARNING - Attempt 4 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:05,391 - WARNING - Attempt 5 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:06,396 - WARNING - Attempt 6 at connecting failed: OSError: [Errno 10065] Connect call failed ('91.108.56.175', 443)
+2025-11-18 11:36:07,386 - INFO - Failed reconnection attempt 5 with ConnectionError
+2025-11-18 11:36:08,407 - ERROR - Automatic reconnection failed 5 time(s)
+2025-11-18 11:36:08,407 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:36:08,407 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:36:08,407 - ERROR - Future exception was never retrieved
+future: <Future finished exception=ConnectionError('Connection to Telegram failed 5 time(s)')>
+ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-18 11:36:08,408 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:36:08,615 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-11' coro=<UpdateMethods._run_until_disconnected() done, defined at D:\Telegram\env\lib\site-packages\telethon\client\updates.py:32> exception=ConnectionError('Connection to Telegram failed 5 time(s)')>
+Traceback (most recent call last):
+  File "D:\Telegram\env\lib\site-packages\telethon\client\updates.py", line 36, in _run_until_disconnected
+    result = await self.disconnected
+ConnectionError: Connection to Telegram failed 5 time(s)
+2025-11-18 11:45:40,285 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:45:58,218 - INFO - Scheduler started
+2025-11-18 11:45:58,752 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:45:58,872 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:46:00,294 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:46:00,972 - INFO - Webhook set
+2025-11-18 11:46:01,524 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:46:01,525 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:46:01,525 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:46:13,270 - INFO - Scheduler started
+2025-11-18 11:46:13,556 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:46:13,675 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:46:16,314 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:46:16,973 - INFO - Webhook set
+2025-11-18 11:48:30,437 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:48:30,439 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:48:30,439 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:48:39,676 - INFO - Scheduler started
+2025-11-18 11:48:39,994 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:48:40,110 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:48:41,099 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:48:42,056 - INFO - Webhook set
+2025-11-18 11:48:43,496 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:48:43,497 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:48:43,497 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:49:03,870 - INFO - Scheduler started
+2025-11-18 11:49:04,189 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:49:04,350 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:49:06,181 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:49:06,939 - INFO - Webhook set
+2025-11-18 11:54:40,018 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:54:40,019 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:54:40,020 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:55:00,068 - INFO - Scheduler started
+2025-11-18 11:55:00,359 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:55:01,489 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:55:06,436 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:55:08,373 - INFO - Webhook set
+2025-11-18 11:55:10,696 - INFO - Webhook update: {'update_id': 419353479, 'message': {'message_id': 72, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447110, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 11:55:31,322 - ERROR - Invite link error: {'ok': False, 'error_code': 400, 'description': "Bad Request: member limit can't be specified for links requiring administrator approval"}
+2025-11-18 11:55:55,326 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:55:55,328 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:55:55,329 - INFO - Not disconnecting (already have no connection)
+2025-11-18 11:56:01,620 - INFO - Scheduler started
+2025-11-18 11:56:01,913 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 11:56:02,054 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:56:03,664 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 11:56:05,416 - INFO - Webhook set
+2025-11-18 11:56:11,646 - INFO - Generated invite link: https://t.me/+15ZAnDBrr2UzZDI1
+2025-11-18 11:56:33,033 - INFO - Webhook update: {'update_id': 419353480, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763447192, 'invite_link': {'invite_link': 'https://t.me/+15ZAnDBrr2UzZDI1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764051969, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 11:56:36,444 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 11:56:36,446 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 204, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 11:56:36,637 - INFO - Webhook update: {'update_id': 419353481, 'message': {'message_id': 73, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447194, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 11:56:50,160 - INFO - Webhook update: {'update_id': 419353482, 'message': {'message_id': 74, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447209, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 11:56:59,821 - INFO - Webhook update: {'update_id': 419353483, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763447219, 'invite_link': {'invite_link': 'https://t.me/+15ZAnDBrr2UzZDI1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764051969, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 11:57:03,846 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 11:57:03,849 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 204, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 11:57:04,072 - INFO - Webhook update: {'update_id': 419353484, 'message': {'message_id': 75, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447221, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 11:59:53,540 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 11:59:53,541 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 11:59:53,541 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:00:02,916 - INFO - Scheduler started
+2025-11-18 12:00:03,284 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:00:03,387 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:00:04,371 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:00:05,165 - INFO - Webhook set
+2025-11-18 12:00:20,406 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:00:20,408 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:00:20,409 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:00:28,615 - INFO - Scheduler started
+2025-11-18 12:00:29,224 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:00:29,343 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:00:30,571 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:00:31,394 - INFO - Webhook set
+2025-11-18 12:00:47,130 - INFO - Webhook update: {'update_id': 419353485, 'message': {'message_id': 76, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447446, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:00:59,760 - INFO - Generated invite link: https://t.me/+io4AL4PotbtkOTdl
+2025-11-18 12:01:58,571 - INFO - Webhook update: {'update_id': 419353486, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763447518, 'invite_link': {'invite_link': 'https://t.me/+io4AL4PotbtkOTdl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764052258, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:02:03,552 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 12:02:03,556 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 208, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:02:03,746 - INFO - Webhook update: {'update_id': 419353487, 'message': {'message_id': 77, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447520, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:02:17,600 - INFO - Webhook update: {'update_id': 419353488, 'message': {'message_id': 78, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447537, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:02:27,455 - INFO - Webhook update: {'update_id': 419353489, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763447547, 'invite_link': {'invite_link': 'https://t.me/+io4AL4PotbtkOTdl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1764052258, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:02:30,779 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 12:02:30,781 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 208, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:02:31,008 - INFO - Webhook update: {'update_id': 419353490, 'message': {'message_id': 79, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447548, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:02:44,633 - INFO - Webhook update: {'update_id': 419353491, 'message': {'message_id': 80, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447564, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:03:17,339 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:03:17,340 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:03:17,341 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:03:23,839 - INFO - Scheduler started
+2025-11-18 12:03:24,127 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:03:24,274 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:03:25,241 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:03:25,932 - INFO - Webhook set
+2025-11-18 12:03:52,622 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:03:52,624 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:03:52,624 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:04:00,964 - INFO - Scheduler started
+2025-11-18 12:04:01,428 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:04:01,581 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:04:03,007 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:04:03,787 - INFO - Webhook set
+2025-11-18 12:05:44,976 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:05:44,977 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:05:44,977 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:05:54,354 - INFO - Scheduler started
+2025-11-18 12:05:54,644 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:05:54,778 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:05:55,759 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:05:56,435 - INFO - Webhook set
+2025-11-18 12:06:38,555 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:06:38,555 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:06:38,556 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:06:49,927 - INFO - Scheduler started
+2025-11-18 12:06:50,232 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:06:50,379 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:06:51,785 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:06:52,754 - INFO - Webhook set
+2025-11-18 12:07:34,424 - INFO - Webhook update: {'update_id': 419353492, 'message': {'message_id': 81, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763447854, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:07:44,320 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:07:44,322 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:07:44,322 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:07:51,940 - INFO - Scheduler started
+2025-11-18 12:07:53,806 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:07:53,934 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:07:54,946 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:07:56,756 - INFO - Webhook set
+2025-11-18 12:09:14,826 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:09:14,827 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:09:14,827 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:09:22,671 - INFO - Scheduler started
+2025-11-18 12:09:23,033 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:09:23,173 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:09:24,192 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:09:24,995 - INFO - Webhook set
+2025-11-18 12:09:47,294 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:09:47,298 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:09:47,299 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:09:55,813 - INFO - Scheduler started
+2025-11-18 12:09:56,124 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:09:56,255 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:09:58,122 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:09:58,883 - INFO - Webhook set
+2025-11-18 12:10:24,992 - INFO - Webhook update: {'update_id': 419353493, 'message': {'message_id': 82, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763448024, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:10:40,381 - ERROR - Invite link error: {'ok': False, 'error_code': 400, 'description': "Bad Request: member limit can't be specified for links requiring administrator approval"}
+2025-11-18 12:10:53,405 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:10:53,409 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:10:53,410 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:11:04,145 - INFO - Scheduler started
+2025-11-18 12:11:04,408 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:11:04,532 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:11:05,519 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:11:07,152 - INFO - Webhook set
+2025-11-18 12:11:16,590 - INFO - Generated invite link: https://t.me/+1semzRuwGQw1Njc1
+2025-11-18 12:11:41,652 - INFO - Webhook update: {'update_id': 419353494, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763448101, 'invite_link': {'invite_link': 'https://t.me/+1semzRuwGQw1Njc1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534475, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:11:44,571 - INFO - Sent message to 8307332619: {'ok': True, 'result': {'message_id': 7, 'from': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'chat': {'id': 8307332619, 'first_name': 'Azra', 'type': 'private'}, 'date': 1763448104, 'text': 'This link is invalid or already used.'}}
+2025-11-18 12:11:44,574 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 174, in webhook
+    await telegram_bot_sendtext("This link is invalid or already used.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:12:20,541 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:12:20,543 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:12:20,543 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:12:43,784 - INFO - Scheduler started
+2025-11-18 12:12:48,177 - INFO - Scheduler started
+2025-11-18 12:12:48,467 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:12:48,608 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:12:49,709 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:12:50,575 - INFO - Webhook set
+2025-11-18 12:12:59,247 - INFO - Generated invite link: https://t.me/+WqlzSVQJX_QzNzQ1
+2025-11-18 12:13:18,718 - INFO - Webhook update: {'update_id': 419353495, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763448198, 'invite_link': {'invite_link': 'https://t.me/+WqlzSVQJX_QzNzQ1', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534578, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:13:20,730 - INFO - Sent message to 8307332619: {'ok': True, 'result': {'message_id': 8, 'from': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'chat': {'id': 8307332619, 'first_name': 'Azra', 'type': 'private'}, 'date': 1763448200, 'text': 'This link is invalid or already used.'}}
+2025-11-18 12:13:20,733 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 174, in webhook
+    await telegram_bot_sendtext("This link is invalid or already used.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:13:54,277 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:13:54,278 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:13:54,278 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:14:03,428 - INFO - Scheduler started
+2025-11-18 12:14:03,871 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:14:04,018 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:14:05,095 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:14:07,151 - INFO - Webhook set
+2025-11-18 12:14:12,923 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:14:12,924 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:14:12,924 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:14:19,833 - INFO - Scheduler started
+2025-11-18 12:14:20,161 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:14:20,309 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:14:21,262 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:14:21,927 - INFO - Webhook set
+2025-11-18 12:14:31,233 - INFO - Generated invite link: https://t.me/+pBfcJpU3dlM1NzU1
+2025-11-18 12:15:04,305 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:15:04,306 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:15:04,306 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:15:13,435 - INFO - Scheduler started
+2025-11-18 12:15:13,779 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:15:13,932 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:15:14,923 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:15:15,595 - INFO - Webhook set
+2025-11-18 12:15:30,086 - INFO - Generated invite link: https://t.me/+Y3EDh20cuvpiMjdl
+2025-11-18 12:15:51,802 - INFO - Webhook update: {'update_id': 419353496, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763448351, 'invite_link': {'invite_link': 'https://t.me/+Y3EDh20cuvpiMjdl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534729, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:15:54,934 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 12:15:54,935 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 205, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:15:55,128 - INFO - Webhook update: {'update_id': 419353497, 'message': {'message_id': 83, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763448352, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:16:14,256 - INFO - Webhook update: {'update_id': 419353498, 'message': {'message_id': 84, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763448373, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:16:23,521 - INFO - Webhook update: {'update_id': 419353499, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763448383, 'invite_link': {'invite_link': 'https://t.me/+Y3EDh20cuvpiMjdl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534729, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:16:25,922 - INFO - Sent message to 8307332619: {'ok': True, 'result': {'message_id': 9, 'from': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'chat': {'id': 8307332619, 'first_name': 'Azra', 'type': 'private'}, 'date': 1763448385, 'text': 'This link is invalid or already used.'}}
+2025-11-18 12:16:25,924 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 174, in webhook
+    await telegram_bot_sendtext("This link is invalid or already used.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:17:26,712 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:17:26,714 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:17:26,714 - INFO - Not disconnecting (already have no connection)
+2025-11-18 12:17:40,789 - INFO - Scheduler started
+2025-11-18 12:17:41,065 - INFO - Connecting to 91.108.56.175:443/TcpFull...
+2025-11-18 12:17:41,190 - INFO - Connection to 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:17:42,803 - INFO - Added job "check_and_kick_users" to job store "default"
+2025-11-18 12:17:43,640 - INFO - Webhook set
+2025-11-18 12:18:08,551 - INFO - Generated invite link: https://t.me/+zwZg4vyFicQ2ZThl
+2025-11-18 12:18:32,425 - INFO - Webhook update: {'update_id': 419353500, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763448512, 'invite_link': {'invite_link': 'https://t.me/+zwZg4vyFicQ2ZThl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534887, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:18:35,704 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 12:18:35,706 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 205, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:18:35,905 - INFO - Webhook update: {'update_id': 419353501, 'message': {'message_id': 85, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763448513, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:18:46,307 - INFO - Webhook update: {'update_id': 419353502, 'message': {'message_id': 86, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763448525, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:19:02,694 - INFO - Generated invite link: https://t.me/+H7vSEseg6jk2ZWFl
+2025-11-18 12:42:10,791 - INFO - Webhook update: {'update_id': 419353503, 'chat_join_request': {'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'user_chat_id': 8307332619, 'date': 1763449930, 'invite_link': {'invite_link': 'https://t.me/+H7vSEseg6jk2ZWFl', 'creator': {'id': 8312801628, 'is_bot': True, 'first_name': 'Omkara_Admin', 'username': 'omkara_admin_12_bot'}, 'expire_date': 1763534941, 'pending_join_request_count': 1, 'creates_join_request': True, 'is_primary': False, 'is_revoked': False}}}
+2025-11-18 12:42:13,810 - INFO - Sent message to 8307332619: {'ok': False, 'error_code': 403, 'description': "Forbidden: bot can't initiate conversation with a user"}
+2025-11-18 12:42:13,812 - ERROR - Webhook error: object dict can't be used in 'await' expression
+Traceback (most recent call last):
+  File "D:\Telegram\main.py", line 205, in webhook
+    await telegram_bot_sendtext("Welcome! Your subscription is active.", user_id)
+TypeError: object dict can't be used in 'await' expression
+2025-11-18 12:42:14,008 - INFO - Webhook update: {'update_id': 419353504, 'message': {'message_id': 87, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763449932, 'new_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'new_chat_members': [{'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}]}}
+2025-11-18 12:43:35,961 - INFO - Webhook update: {'update_id': 419353505, 'message': {'message_id': 88, 'from': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'chat': {'id': -1003293235014, 'title': 'Dev Omkara Group', 'type': 'supergroup'}, 'date': 1763450015, 'left_chat_participant': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}, 'left_chat_member': {'id': 8307332619, 'is_bot': False, 'first_name': 'Azra', 'language_code': 'en'}}}
+2025-11-18 12:44:39,186 - INFO - Disconnecting from 91.108.56.175:443/TcpFull...
+2025-11-18 12:44:39,188 - INFO - Disconnection from 91.108.56.175:443/TcpFull complete!
+2025-11-18 12:44:39,189 - INFO - Not disconnecting (already have no connection)

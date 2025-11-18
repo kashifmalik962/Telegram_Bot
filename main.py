@@ -133,6 +133,9 @@ class SubscribeRequest(BaseModel):
     phone: str
     duration_days: int
 
+class RegenerateLink(BaseModel):
+    phone: str
+
 class PhoneCheckRequest(BaseModel):
     phone: str
 
@@ -158,13 +161,14 @@ async def webhook(request: Request):
         print("username", username)
         print("group_link", group_link)
         print("req", req)
+        print("update", update)
         
         
         if chat_id != int(GROUP_CHAT_ID):
             return {"ok": True}
 
         # Find subscription by invite_link
-        sub = await users_collection.find_one({"group_link": group_link, "joined": False})
+        sub = await users_collection.find_one({"group_link": group_link, "joined": False, "link_used": False})
         if not sub:
             await decline_join_request(user_id)
             await telegram_bot_sendtext("This link is invalid or already used.", user_id)
@@ -179,7 +183,8 @@ async def webhook(request: Request):
             "telegram_id": user_id,
             "username": username,
             "left_group": False,
-            "left_at": None
+            "left_at": None,
+            "link_used": True
         }
         await users_collection.update_one(
             {"group_link": group_link},
@@ -193,6 +198,7 @@ async def webhook(request: Request):
         # REVOKE one-time link
         try:
             await revoke_invite_link(group_link)
+            print("revoke_invite_link +++++++++++++++")
         except:
             pass
 
@@ -272,18 +278,6 @@ async def subscribe(req: SubscribeRequest):
         if await users_collection.find_one({"phone": phone, "joined": True}):
             return JSONResponse(status_code=400, content={"status_code":0, "message":"Already Joined group"})
 
-        if await users_collection.find_one({"phone": phone, "joined": False, "expiry_date": {"$gt": datetime.now()}}):
-            # Create one-time join-request link
-            group_link = create_temp_invite_link()
-            if not group_link:
-                print("group_link", group_link)
-                return JSONResponse(status_code=500, content={"status_code":0, "message":"Failed to create link"})
-
-            await users_collection.update_one({"phone": phone},{"$set": {"group_link": group_link}})
-            result = await users_collection.find_one({"phone": phone}, {"_id": 0})
-            return JSONResponse(status_code=200, content={"status_code":1, 
-                                                          "message": "Successfully group link generated",
-                                                          "data": jsonable_encoder(result)})
 
         exist_user =  await users_collection.find_one({"phone": phone})
         if not exist_user:
@@ -304,7 +298,8 @@ async def subscribe(req: SubscribeRequest):
                 "telegram_id": None,
                 "username": None,
                 "left_group": False,
-                "left_at": None
+                "left_at": None,
+                "link_used": False
             }
             
             await users_collection.insert_one(doc)
@@ -321,10 +316,23 @@ async def subscribe(req: SubscribeRequest):
                     "data": jsonable_encoder(doc)
                 }
             )
+        
+        else:
+            remain_days_in_expiry =  await users_collection.find_one({"phone": phone, "expiry_date": {"$gt": datetime.now()}})
+            if remain_days_in_expiry:
+                return JSONResponse(
+                    status_code=200,
+                    content={
+                        "status_code": 1,
+                        "message": "Already generated link Please contact by admin."
+                    }
+                )
 
     except Exception as e:
         logging.error(f"Subscribe error: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+        return JSONResponse(status_code=500, content={"status_code":1, "message":str(e)})
+
+
 
 # ---- Extend Plan ----
 @app.post("/extend-plan")
@@ -377,7 +385,8 @@ async def extend(req: SubscribeRequest):
                 "telegram_id": None,
                 "username": None,
                 "left_group": False,
-                "left_at": None
+                "left_at": None,
+                "link_used": False
             }
             
             await users_collection.insert_one(doc)
@@ -398,6 +407,35 @@ async def extend(req: SubscribeRequest):
     except Exception as e:
         logging.error(f"Extend error: {e}")
         raise HTTPException(status_code=500)
+
+
+
+@app.post("/re-generate-link-after-leave")
+async def re_generate_link_after_leave(req: RegenerateLink):
+    try:
+        phone = req.phone
+
+        if not validate_phone(phone):
+            return JSONResponse(status_code=400, content={"status_code":0, "message":"Invalid input"})
+        if await users_collection.find_one({"phone": phone, "joined": True}):
+            return JSONResponse(status_code=400, content={"status_code":0, "message":"Already Joined group"})
+
+        if await users_collection.find_one({"phone": phone, "joined": False, "left_group": True,"expiry_date": {"$gt": datetime.now()}}):
+            # Create one-time join-request link
+            group_link = create_temp_invite_link()
+            if not group_link:
+                print("group_link", group_link)
+                return JSONResponse(status_code=500, content={"status_code":0, "message":"Failed to create link"})
+
+            await users_collection.update_one({"phone": phone},{"$set": {"group_link": group_link, "link_used": False}})
+            result = await users_collection.find_one({"phone": phone}, {"_id": 0})
+            return JSONResponse(status_code=200, content={"status_code":1, 
+                                                          "message": "Successfully group link generated",
+                                                          "data": jsonable_encoder(result)})
+    except Exception as e:
+        logging.error(f"Subscribe error: {e}", exc_info=True)
+        return JSONResponse(status_code=500, content={"status_code":1, "message":str(e)})
+
 
 # ---- Admin Endpoints ----
 @app.get("/get-all-active-user")

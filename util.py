@@ -65,8 +65,8 @@ def create_temp_invite_link():
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/createChatInviteLink"
     data = {
         "chat_id": GROUP_CHAT_ID,
-        "expire_date": int(time.time()) + (7 * 24 * 60 * 60),  # 7 days validity
-        "creates_join_request": True  # Require approval
+        "expire_date": int(time.time()) + 86400,  
+        "creates_join_request": True
     }
     try:
         response = requests.post(url, json=data)
