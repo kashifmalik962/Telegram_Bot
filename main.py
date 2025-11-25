@@ -37,6 +37,9 @@ if IS_PROD:
     DB = os.getenv("DB")
     USER_COLLECTION = os.getenv("USER_COLLECTION")
     IMPORT_USERS_COLLECTION = os.getenv("IMPORT_USERS_COLLECTION")
+    REST_USERS_COLLECTION = os.getenv("REST_USERS_COLLECTION")
+    TEMP_USERS_COLLECTION = os.getenv("TEMP_USERS_COLLECTION")
+    MORE_NEW_USERS_COLLECTION = os.getenv("MORE_NEW_USERS_COLLECTION")
     LOG_COLLECTION = os.getenv("LOG_COLLECTION")
     BOT_TOKEN = os.getenv("PROD_BOT_TOKEN")
     PHONE = os.getenv("PROD_PHONE")
@@ -46,11 +49,15 @@ if IS_PROD:
     WEBHOOK_URL = os.getenv("PROD_WEBHOOK_URL")
     BOT_USERNAME = os.getenv("PROD_BOT_USERNAME", "")
     GROUP_CHAT_ID = os.getenv("PROD_GROUP_CHAT_ID")
+    SESSION_PATH = "telethon_prod_session/user.session"
 else:
     MONGO_URI = os.getenv("MONGO_URI")
     DB = os.getenv("DB")
     USER_COLLECTION = os.getenv("USER_COLLECTION")
     IMPORT_USERS_COLLECTION = os.getenv("IMPORT_USERS_COLLECTION")
+    REST_USERS_COLLECTION = os.getenv("REST_USERS_COLLECTION")
+    TEMP_USERS_COLLECTION = os.getenv("TEMP_USERS_COLLECTION")
+    MORE_NEW_USERS_COLLECTION = os.getenv("MORE_NEW_USERS_COLLECTION")
     LOG_COLLECTION = os.getenv("LOG_COLLECTION")
     BOT_TOKEN = os.getenv("DEV_BOT_TOKEN")
     PHONE = os.getenv("DEV_PHONE")
@@ -60,6 +67,16 @@ else:
     WEBHOOK_URL = os.getenv("DEV_WEBHOOK_URL")
     BOT_USERNAME = os.getenv("DEV_BOT_USERNAME", "")
     GROUP_CHAT_ID = os.getenv("DEV_GROUP_CHAT_ID")
+    SESSION_PATH = "telethon_dev_session/user.session"
+
+
+# 🔥 FIX: Make sure folder exists
+os.makedirs(os.path.dirname(SESSION_PATH), exist_ok=True)
+
+# Finally, create Telethon client safely
+client = TelegramClient(SESSION_PATH, API_ID, API_HASH)
+telethon_client = client
+
 
 # ---- Validate ----
 if not BOT_USERNAME:
@@ -77,9 +94,10 @@ db = mongo_client[DB]
 users_collection = db[USER_COLLECTION]
 log_collection = db[LOG_COLLECTION]
 import_users_coll = db[IMPORT_USERS_COLLECTION]
+rest_users_coll = db[REST_USERS_COLLECTION]
+temp_users_coll = db[TEMP_USERS_COLLECTION]
+more_new_users_coll = db[MORE_NEW_USERS_COLLECTION]
 
-# -------------------- Telethon --------------------
-client = TelegramClient('session', API_ID, API_HASH)
 
 # -------------------- Helpers --------------------
 def validate_phone(phone: str) -> bool:
@@ -106,6 +124,11 @@ async def lifespan(app: FastAPI):
     # Start Telethon
     await client.start(phone=PHONE)
     print("Telethon started")
+
+    if not await client.is_user_authorized():
+        raise Exception("❌ ERROR: Telethon session invalid. Generate user.session again.")
+
+    print("✅ Telethon autologin success")
 
     # Run Telethon event loop in background
     asyncio.create_task(client.run_until_disconnected())
@@ -190,10 +213,50 @@ async def webhook(request: Request):
             {"group_link": group_link},
             {"$set": update_data}
         )
-        await log_collection.update_one(
-            {"group_link": group_link},
-            {"$set": update_data}
-        )
+
+       # Check same user join which have link created
+        try:
+            get_same_user = await users_collection.find_one({"group_link": group_link})
+            print("get_same_user", get_same_user)
+
+            # Fetch Telegram ID by phone again (may return None if privacy = Nobody)
+            fetched_tid, fetched_username = await get_telegram_id_by_phone(get_same_user["phone"])
+            print("get_same_user['phone']", get_same_user["phone"])
+            print("fetched_tid", fetched_tid)
+
+            # Determine if same user joined
+            same_user = (fetched_tid is not None and fetched_tid == get_same_user["telegram_id"])
+            update_data["same_user_join"] = same_user
+            update_data["privacy_nobody"] = (fetched_tid is None)
+
+            # Update user record
+            await users_collection.update_one(
+                {"group_link": group_link},
+                {"$set": {
+                    "same_user_join": same_user,
+                    "privacy_nobody": update_data["privacy_nobody"]
+                }}
+            )
+
+            # Prepare proper log document
+            log_doc = {
+                "group_link": group_link,
+                **update_data
+            }
+
+            print("update_data", update_data)
+            print("log_doc", log_doc)
+
+            # Update log entry (or create if missing)
+            await log_collection.update_one(
+                {"group_link": group_link},
+                {"$set": log_doc},
+                upsert=True
+            )
+
+        except Exception as e:
+            print("log saving error:", str(e))
+            pass
 
         # REVOKE one-time link
         try:
@@ -210,7 +273,6 @@ async def webhook(request: Request):
     except Exception as e:
         logging.error(f"Webhook error: {e}", exc_info=True)
         return {"ok": False}
-
 
 
 # -------------------- Telethon Event: User Left Group --------------------
@@ -259,6 +321,38 @@ async def handle_user_left(event):
         print("Left event error:", e)
 
 
+
+async def get_telegram_id_by_phone(phone: str):
+    """
+    Import a phone contact, return Telegram ID and username if exists.
+    Handles FloodWait automatically.
+    """
+    try:
+        contact = InputPhoneContact(client_id=0, phone=phone, first_name="Temp", last_name="Temp")
+
+        while True:
+            try:
+                result = await client(ImportContactsRequest([contact]))
+                if result.users:
+                    user = result.users[0]
+                    await client(DeleteContactsRequest(id=[user.id]))  # optional cleanup
+                    return user.id, getattr(user, "username", None)
+                return None, None
+
+            except FloodWaitError as e:
+                wait_time = e.seconds + 2
+                print(f"⚠️ FloodWait: sleeping for {wait_time} seconds...")
+                await asyncio.sleep(wait_time)
+
+    except PhoneNumberInvalidError:
+        print(f"❌ Invalid phone number: {phone}")
+        return None, None
+
+    except Exception as e:
+        print(f"⚠️ Unexpected error fetching {phone}: {e}")
+        return None, None
+
+
 # ==================== ENDPOINTS ====================
 @app.post("/check-user-by-phone")
 async def check_phone(req: PhoneCheckRequest):
@@ -280,6 +374,7 @@ async def subscribe(req: SubscribeRequest):
 
 
         exist_user =  await users_collection.find_one({"phone": phone})
+        print("exist_user", exist_user)
         if not exist_user:
             # Create one-time join-request link
             group_link = create_temp_invite_link()
@@ -438,7 +533,7 @@ async def re_generate_link_after_leave(req: RegenerateLink):
 
 
 # ---- Admin Endpoints ----
-@app.get("/get-all-active-user")
+@app.get("/get-all-users")
 async def get_all():
     joined = [u async for u in users_collection.find({"joined": True})]
     pending = [u async for u in users_collection.find({"joined": False})]
@@ -449,8 +544,8 @@ async def get_all():
         "data": {
             "joined": len(joined),
             "pending": len(pending),
-            "joined_users": joined,
-            "pending_users": pending
+            "joined_users": jsonable_encoder(joined),
+            "pending_users": jsonable_encoder(pending)
         }
     })
 
@@ -494,7 +589,7 @@ async def import_user(file: UploadFile = File(...)):
         if df.empty:
             raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
-        total_inserted, inserted, errors, not_phone = 0, [], [], 0, 0
+        total_inserted, inserted, errors, not_phone = 0, [], [], 0
 
         for idx, row in df.iterrows():
             try:
@@ -547,6 +642,113 @@ async def import_user(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
     
+
+
+@app.post("/rest-import-user")
+async def rest_import_user(file: UploadFile = File(...)):
+    """
+    Upload CSV/XLSX → extract mobile → fetch telegram_id → insert into MongoDB
+    """
+    try:
+        filename = file.filename.lower()
+        if not (filename.endswith(".csv") or filename.endswith(".xlsx")):
+            raise HTTPException(status_code=400, detail="Only CSV or XLSX allowed.")
+
+        # -------------------------
+        # Parse file
+        # -------------------------
+        file_bytes = await file.read()
+
+        if filename.endswith(".csv"):
+            decoded = file_bytes.decode("utf-8", errors="ignore")
+            df = pd.read_csv(io.StringIO(decoded))
+        else:
+            df = pd.read_excel(io.BytesIO(file_bytes))
+
+        if df.empty:
+            raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+        # -------------------------
+        # Counters
+        # -------------------------
+        total_inserted = 0
+        inserted = []
+        errors = []
+        missing_mobile = 0
+
+        # -------------------------
+        # Process each row
+        # -------------------------
+        for idx, row in df.iterrows():
+            try:
+                mapped = transform_row_data(row)
+                mobile = mapped.get("mobile")
+
+                # -----------------------------------------
+                # Case 1: No mobile number
+                # -----------------------------------------
+                if not mobile:
+                    missing_mobile += 1
+                    errors.append({"row": idx + 1, "error": "Missing mobile"})
+                    await temp_users_coll.insert_one(mapped)
+                    total_inserted += 1
+                    continue
+
+                # -----------------------------------------
+                # Check if user already exists
+                # -----------------------------------------
+                existing = await temp_users_coll.find_one({"mobile": mobile})
+                if existing:
+                    continue  # skip duplicate
+
+                # -----------------------------------------
+                # Fetch Telegram ID
+                # -----------------------------------------
+                try:
+                    telegram_id, username = await get_telegram_id_by_phone(mobile)
+
+                    if telegram_id:
+                        mapped["telegram_id"] = telegram_id
+                        mapped["telegram_username"] = username
+                        print(f"✅ Found Telegram ID for {mobile}: {telegram_id}")
+                    else:
+                        print(f"❌ No Telegram account found for {mobile}")
+
+                except Exception as e:
+                    print(f"Error fetching telegram_id for {mobile}: {e}")
+
+                # -----------------------------------------
+                # Insert in DB
+                # -----------------------------------------
+                await temp_users_coll.insert_one(mapped)
+                inserted.append(mobile)
+                total_inserted += 1
+
+            except Exception as row_err:
+                errors.append({
+                    "row": idx + 1,
+                    "error": str(row_err),
+                    "email": row.get("email")  # your CSV uses 'email', not Email ID
+                })
+
+        # -------------------------
+        # Response
+        # -------------------------
+        return JSONResponse(
+            content={
+                "message": "Bulk import completed",
+                "total_inserted": total_inserted,
+                "inserted_mobiles": inserted,
+                "missing_mobile_rows": missing_mobile,
+                "errors": errors,
+            },
+            status_code=200,
+        )
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
 
 # -------------------- Run --------------------
 if __name__ == "__main__":

@@ -62,6 +62,8 @@ def telegram_bot_sendtext(bot_message, telegram_id):
 
 def create_temp_invite_link():
     """Create a one-time, expiring Telegram group invite link."""
+    print("BOT_TOKEN in create_temp_invite_link", BOT_TOKEN)
+    print("GROUP_CHAT_ID in create_temp_invite_link", GROUP_CHAT_ID)
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/createChatInviteLink"
     data = {
         "chat_id": GROUP_CHAT_ID,
@@ -173,60 +175,43 @@ def parse_date(value: Optional[str]) -> Optional[datetime]:
 # Transform each row
 # -----------------------------
 def transform_row_data(row) -> dict:
-    """Map CSV columns → internal profile schema."""
+    """Map CSV columns → internal schema."""
+
     def clean_field(val):
-        """Convert NaN or empty to None"""
-        if pd.isna(val) or str(val).strip() in ["", "NaN", "nan", "None"]:
+        """Convert NaN, empty, or 'nan' values to None."""
+        if pd.isna(val) or str(val).strip().lower() in ["", "nan", "none", "null"]:
             return None
         return str(val).strip()
 
-    mapped = {
-        "phone": clean_phone_number(row.get("Telegram Number")),
-        "account_name": clean_field(row.get("Account Name")),
-        "full_name": clean_field(row.get("Full Name")),
-        "mobile": clean_field(row.get("Mobile")),
-        "email": clean_field(row.get("Email")),
-        "pan_number": clean_field(row.get("Pan Number")),
-        "start_date": parse_date(row.get("Support Start Date")),
-        "expiry_date": parse_date(row.get("Support End Date")),
-        "telegram_name": clean_field(row.get("Telegram Name")),
-        "status": clean_field(row.get("Status")),
-        "calling_status": clean_field(row.get("Calling status")),
+    mapped = {}
+
+    # _id must be excluded because MongoDB auto-generates it
+    # Importing _id from CSV causes "Update not permitted while document contains errors"
+    mapped["phone"] = clean_phone_number(row.get("phone"))
+    mapped["mobile"] = clean_phone_number(row.get("mobile"))
+
+    mapped.update({
+        "account_name": clean_field(row.get("account_name")),
+        "full_name": clean_field(row.get("full_name")),
+        "email": clean_field(row.get("email")),
+        "pan_number": clean_field(row.get("pan_number")),
+        "start_date": clean_field(row.get("start_date")),
+        "expiry_date": clean_field(row.get("expiry_date")),
+        "telegram_name": clean_field(row.get("telegram_name")),
+        "status": clean_field(row.get("status")),
+        "calling_status": clean_field(row.get("calling_status")),
+
+        # Will be updated later after scanning Telegram
         "telegram_id": None,
         "telegram_username": None,
-        "joined": True
-    }
+
+        # Never assume imported users have joined the group
+        "joined": False
+    })
 
     return mapped
 
 
 
-async def get_telegram_id_by_phone(phone: str):
-    """
-    Import a phone contact, return Telegram ID and username if exists.
-    Handles FloodWait automatically.
-    """
-    try:
-        contact = InputPhoneContact(client_id=0, phone=phone, first_name="Temp", last_name="Temp")
 
-        while True:
-            try:
-                result = await client(ImportContactsRequest([contact]))
-                if result.users:
-                    user = result.users[0]
-                    await client(DeleteContactsRequest(id=[user.id]))  # optional cleanup
-                    return user.id, getattr(user, "username", None)
-                return None, None
 
-            except FloodWaitError as e:
-                wait_time = e.seconds + 2
-                print(f"⚠️ FloodWait: sleeping for {wait_time} seconds...")
-                await asyncio.sleep(wait_time)
-
-    except PhoneNumberInvalidError:
-        print(f"❌ Invalid phone number: {phone}")
-        return None, None
-
-    except Exception as e:
-        print(f"⚠️ Unexpected error fetching {phone}: {e}")
-        return None, None

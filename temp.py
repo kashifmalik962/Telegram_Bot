@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load your CSV file
-df = pd.read_csv("Telegram_DB.import_users.csv")
+df = pd.read_csv("collection/Telegram_DB.final_merge_users.csv")
 
 # Filter rows where telegram_id is empty, NaN, or blank string
 filtered_df = df[(df["telegram_id"].isna()) | (df["telegram_id"] == "")]
